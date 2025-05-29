@@ -12,7 +12,7 @@ services:
             - ./init.sh:/docker-entrypoint-initdb.d/init.sh
             - ./projeto_1:/projeto_1/
             - ./projeto_2:/projeto_2/
-            - ./projeto_3:/projeto_3/
+            # Adicione novas pastas projeto_X aqui conforme necessário
         ports:
             - "5432:5432"
         restart: unless-stopped

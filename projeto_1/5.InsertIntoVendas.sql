@@ -1,3 +1,6 @@
+-- Set datestyle to handle European date format (DD/MM/YYYY)
+SET DATESTYLE TO PostgreSQL,European;
+
 INSERT INTO Relacional.vendas(idvendedor, idcliente, data, total) VALUES(1, 1, '01/01/2016', 8053.60);
 INSERT INTO Relacional.vendas(idvendedor, idcliente, data, total) VALUES(6, 185, '01/01/2016', 150.40);
 INSERT INTO Relacional.vendas(idvendedor, idcliente, data, total) VALUES(7, 31, '02/01/2016', 6087.00);
