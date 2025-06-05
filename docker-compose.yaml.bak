@@ -12,7 +12,27 @@ services:
             - ./init.sh:/docker-entrypoint-initdb.d/init.sh
             - ./projeto_1:/projeto_1/
             - ./projeto_2:/projeto_2/
-            # Adicione novas pastas projeto_X aqui conforme necessário
+            - ./projeto_3:/projeto_3/
         ports:
             - "5432:5432"
         restart: unless-stopped
+
+    mongodb:
+        image: mongo:7
+        container_name: projeto1_mongodb
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: admin
+            MONGO_INITDB_ROOT_PASSWORD: password
+            MONGO_INITDB_DATABASE: projeto1db
+        volumes:
+            - mongodb_data:/data/db
+            - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+            - ./projeto_1:/projeto_1/
+            - ./projeto_2:/projeto_2/
+            - ./projeto_3:/projeto_3/
+        ports:
+            - "27017:27017"
+        restart: unless-stopped
+
+volumes:
+    mongodb_data:

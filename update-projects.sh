@@ -44,9 +44,35 @@ cat >> docker-compose.yaml << EOF
         ports:
             - "5432:5432"
         restart: unless-stopped
+
+    mongodb:
+        image: mongo:7
+        container_name: projeto1_mongodb
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: admin
+            MONGO_INITDB_ROOT_PASSWORD: password
+            MONGO_INITDB_DATABASE: projeto1db
+        volumes:
+            - mongodb_data:/data/db
+            - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
 EOF
 
-echo "✓ docker-compose.yaml atualizado!"
+# Adicionar os volumes dos projetos ao MongoDB também
+for projeto_dir in $projeto_dirs; do
+    clean_dir=${projeto_dir#./}
+    echo "            - ./$clean_dir:/$clean_dir/" >> docker-compose.yaml
+done
+
+cat >> docker-compose.yaml << EOF
+        ports:
+            - "27017:27017"
+        restart: unless-stopped
+
+volumes:
+    mongodb_data:
+EOF
+
+echo "✓ docker-compose.yaml atualizado com PostgreSQL e MongoDB!"
 echo "✓ Backup salvo como docker-compose.yaml.bak"
 echo ""
 echo "Para aplicar as mudanças, execute:"
